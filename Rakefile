@@ -2,9 +2,9 @@ require 'rubygems'
 require 'rake'
 require 'echoe'
 
-Echoe.new('trainbbcode','0.1.0') do |p|
-	p.description	= "Provides BBCode"
-	p.url		= "http://github.com/Arcath/TrainBBCode"
+Echoe.new('trainbbcode','0.1.1') do |p|
+	p.description	= "Provides BBCode for Ruby."
+	p.url		= "http://www.arcath.net"
 	p.author	= "Adam \"Arcath\" Laycock"
 	p.email		= "adam@arcath.net"
 	p.ignore_pattern= ["tmp/*", "scripts/*"]

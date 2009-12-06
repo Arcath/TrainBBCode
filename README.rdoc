@@ -1,3 +1,25 @@
 = Train BBCode
 
 Rails Gem for BBCode
+
+== Install
+
+=== As a Gem
+
+gem install trainbbcode
+
+For rails you will need to add:
+
+config.gem "trainbbcode"
+
+to config/enviroments.rb
+
+== Usage
+
+This adds a method to string of .tbbc which lets you parse the code like this:
+
+"[b]bold text[/b] and [i]italic[/i]".tbbc
+
+that would output:
+
+"<strong>bold text</strong> and <i>italic</i>"
