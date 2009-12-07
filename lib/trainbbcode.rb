@@ -47,8 +47,3 @@ class String
 		bbc.parse(self)
 	end
 end
-
-s="[img alt=testing]test[/img]"
-t=TBBC.new
-t.conf(:custom_tags => [[/\[s\](.*?)\[\/s\]/,'<strikethrough>\1</strikethrough>',true]], :image_enabled => false)
-puts t.parse(s)
