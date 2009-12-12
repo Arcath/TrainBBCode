@@ -55,13 +55,13 @@ The tag array is formatted like this:
 
 === Standard
 
-  [b]BOLD[/b]					=>	<strong>BOLD</strong>
-  [i]ITALICS[/i]					=>	<i>ITALICS</i>
-  [u]UNDERLINE[/u]				=>	<u>UNDERLINE</u>
-  [url=http://example.com]example[/url]		=>	<a href="http://example.com" target="YOURDEFAULT">example</a>
-  [url]http://example.com[/url]			=>	<a href="http://example.com" target="YOURDEFAULT">http://example.com</a>
-  [img]http://example.com/test.jpg[/img]		=>	<img src="http://example.com/test.jpg" alt="DEAFULTALT" />
-  [img alt=Test]http://example.com/test.jpg[/img]	=>	<img src="http://example.com/test.jpg" alt="Test" />
+[b]BOLD[/b]					=>	<strong>BOLD</strong>
+[i]ITALICS[/i]					=>	<i>ITALICS</i>
+[u]UNDERLINE[/u]				=>	<u>UNDERLINE</u>
+[url=http://example.com]example[/url]		=>	<a href="http://example.com" target="YOURDEFAULT">example</a>
+[url]http://example.com[/url]			=>	<a href="http://example.com" target="YOURDEFAULT">http://example.com</a>
+[img]http://example.com/test.jpg[/img]		=>	<img src="http://example.com/test.jpg" alt="DEAFULTALT" />
+[img alt=Test]http://example.com/test.jpg[/img]	=>	<img src="http://example.com/test.jpg" alt="Test" />
 
 === Block
 
@@ -81,4 +81,4 @@ same applies for [ol]
 
 === Special
 
-  [nobbc][b]BOLD[/b][/nobbc]			=>	[b]BOLD[/b] (using the char codes for [ and ])
+[nobbc][b]BOLD[/b][/nobbc]			=>	[b]BOLD[/b] (using the char codes for [ and ])

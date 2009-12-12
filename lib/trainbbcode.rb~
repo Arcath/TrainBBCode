@@ -53,10 +53,7 @@ class TBBC
 			#Ordered List
 			[/\[ol\](.*?)\[\/ol\]/,'<ol>\1</ol>',@config[:list_enabled]],
 			#List Item
-			[/\[li\](.*?)\[\/li\]/,'<li>\1</li>',@config[:list_enabled]],
-			#Quote
-			[/\[quote\](.*?)\[\/quote\]/,'<blockquote>\1</blockquote>',@config[:quote_enabled]],
-			[/\[quote=(.*?)\](.*?)\[\/quote\]/,'<blockquote><i>Posted by <b>\1</b></i><br />\2</blockquote>',@config[:quote_enabled]]
+			[/\[li\](.*?)\[\/li\]/,'<li>\1</li>',@config[:list_enabled]]
 		]
 	end
 	def nobbc(s)
