@@ -3,6 +3,16 @@ class TBBC
 		self.conf(:configed_by => "system")
 	end
 	def conf(config)
+		require 'rubygems'
+		begin
+			require 'uv'
+			#UV Settings
+			config[:syntax_output] ||= "html"
+			config[:syntax_line_numbers] ||= true
+			config[:syntax_theme] ||= "twilight"
+		rescue LoadError
+			config[:syntax_highlighting]=false
+		end
 		config[:configed_by] ||= "user"
 		config[:image_alt] ||= "Posted Image" 
 		config[:url_target] ||= "_BLANK"
@@ -11,19 +21,27 @@ class TBBC
 		@config=config
 	end
 	def parse(s)
-		#First off remove the < and > which will disable all HTML
-		s=s.gsub("<","&lt;").gsub(">","&gt;")
+		#Run the UV Parser (if enabled) to sort out any code
+		unless @config[:syntax_highlighting] == false
+			s=uv s
+		end
+		#Remove the < and > which will disable all HTML
+		s=s.gsub("<","&lt;").gsub(">","&gt;") unless @config[:disable_html] == false
 		#Convert new lines to <br />'s
-		s=s.gsub(/\n/,'<br />')
+		s=s.gsub(/\n/,'<br />') unless @config[:newline_enabled] == false
 		#[nobbc] tags
 		unless @config[:nobbc_enabled] == false
 			s=nobbc s
 		end
 		#Loading Custom Tags
-		if @config[:custom_tags] then
-			@config[:custom_tags].each do |tag|
-				s=s.gsub(tag[0],tag[1]) unless tag[2] == false
+		begin
+			if @config[:custom_tags] then
+				@config[:custom_tags].each do |tag|
+					s=s.gsub(tag[0],tag[1]) unless tag[2] == false
+				end
 			end
+		rescue
+			s+="<br />Custom Tags failed to run"
 		end
 		#Loading Default Tags and applying them
 		if @config[:allow_defaults] then
@@ -56,7 +74,9 @@ class TBBC
 			[/\[li\](.*?)\[\/li\]/,'<li>\1</li>',@config[:list_enabled]],
 			#Quote
 			[/\[quote\](.*?)\[\/quote\]/,'<blockquote>\1</blockquote>',@config[:quote_enabled]],
-			[/\[quote=(.*?)\](.*?)\[\/quote\]/,'<blockquote><i>Posted by <b>\1</b></i><br />\2</blockquote>',@config[:quote_enabled]]
+			[/\[quote=(.*?)\](.*?)\[\/quote\]/,'<blockquote><i>Posted by <b>\1</b></i><br />\2</blockquote>',@config[:quote_enabled]],
+			#Color
+			[/\[color=(.*?)\](.*?)\[\/color\]/,'<span style="color:\1;">\2</span>',@config[:color_enabled]]
 		]
 	end
 	def nobbc(s)
@@ -66,6 +86,23 @@ class TBBC
 			s=s.gsub(f[0],replace)
 		end
 		s=s.gsub("[nobbc]","").gsub("[/nobbc]","")
+		return s
+	end
+	def css
+		output="<style type=\"text/css\">
+			blockquote{
+				
+			}
+		</style>"
+		output+=Uv.themes.map{|theme| %Q(<link rel="stylesheet" type="text/css" href="css/#{theme}.css" />\n)}
+		return output
+	end
+	def uv(s)
+		find=s.scan(/\[code lang=(.*?)\](.*?)\[\/code\]/)
+		finde.each do |f|
+			r=Uv.parse(f[1], @config[:syntax_output], f[0], @config[:syntax_line_numbers], @config[:syntax_theme])
+		end
+		s=s.gsub(/\[code lang=(.*?)\]/,'').gsub("[/code]",'')
 		return s
 	end
 end

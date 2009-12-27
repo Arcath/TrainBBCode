@@ -14,6 +14,19 @@ config.gem "trainbbcode"
 
 to config/enviroments.rb
 
+== Optional Requirements
+
+=== Ultraviolet
+
+If you want to use syntax highlighting you will need to install the "ultraviolet" gem
+
+Once you have the gem installed you will need to run:
+
+    uv -s ruby --copy-files css
+    gief css filez
+
+
+
 == Usage
 
 This adds a method to string of .tbbc which lets you parse the code like this:
@@ -34,14 +47,18 @@ This would output:
 
   "[b]bold text[/b] and <i>italic</i>"
   
-== Options
+=== Options
 
-:url_target	can be set to anything valid for a link target.
-:image_alt 	the default value for the alt attribute in images
+:url_target		can be set to anything valid for a link target.
+:image_alt 		the default value for the alt attribute in images
+:allow_defaults		if set to false the default tags (see Tags) will be disabled
+:disable_html		if set to false < and > will not be removed, all HTML will be allowed
+:newline_enabled	if set to false \n wont be turned into html breaks
+:syntax_highlighting	if set to false (or if the gem isnt installed) syntax highlighting will not be used
 
 :TAG_enabled	set for each tag in use e.g. :italic_enabled, it can be set to false to disable the tag
 
-== Adding Custom Tags
+=== Adding Custom Tags
 
 :custom_tags is used to define custom tags. you pass an array of tag arrays, the bold tag would be added like this:
 
@@ -50,6 +67,10 @@ This would output:
 The tag array is formatted like this:
 
 [REGEX_PATTERN,HTML,ENABLED]
+
+=== Adding the CSS
+
+call the css method
 
 == Tags
 
