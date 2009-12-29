@@ -2,7 +2,7 @@ require 'rubygems'
 require 'rake'
 require 'echoe'
 
-Echoe.new('trainbbcode','0.2.2') do |p|
+Echoe.new('trainbbcode','0.2.3') do |p|
 	p.description	= "Provides BBCode for Ruby."
 	p.url		= "http://www.arcath.net"
 	p.author	= "Adam \"Arcath\" Laycock"

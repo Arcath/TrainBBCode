@@ -63,6 +63,7 @@ class TBBC
 			#Url
 			[/\[url\](.*?)\[\/url\]/,'<a href="\1" target="' + @config[:url_target] +'">\1</a>',@config[:url_enabled]],
 			[/\[url=(.*?)\](.*?)\[\/url\]/,'<a href="\1" target="' + @config[:url_target] + '">\2</a>',@config[:url_enabled]],
+			[/\[url=(.*?) target=(.*?)\](.*?)\[\/url\]/,'<a href="\1" target="\2">\3</a>',@config[:url_enabled]],
 			#Image
 			[/\[img\](.*?)\[\/img\]/,'<img src="\1" alt="'+ @config[:image_alt] + '" />',@config[:image_enabled]],
 			[/\[img alt=(.*?)\](.*?)\[\/img\]/,'<img src="\2" alt="\1" />',@config[:image_enabled]],
@@ -76,16 +77,22 @@ class TBBC
 			[/\[quote\](.*?)\[\/quote\]/,'<blockquote>\1</blockquote>',@config[:quote_enabled]],
 			[/\[quote=(.*?)\](.*?)\[\/quote\]/,'<blockquote><i>Posted by <b>\1</b></i><br />\2</blockquote>',@config[:quote_enabled]],
 			#Color
-			[/\[color=(.*?)\](.*?)\[\/color\]/,'<span style="color:\1;">\2</span>',@config[:color_enabled]]
+			[/\[color=(.*?)\](.*?)\[\/color\]/,'<span style="color:\1;">\2</span>',@config[:color_enabled]],
+			#Alignment
+			[/\[center\](.*?)\[\/center\]/,'<div style="text-align:center">\1</div>',@config[:alignment_enabled]],
+			[/\[left\](.*?)\[\/left\]/,'<div style="text-align:left">\1</div>',@config[:alignment_enabled]],
+			[/\[right\](.*?)\[\/right\]/,'<div style="text-align:right">\1</div>',@config[:alignment_enabled]],
+			#Acronym
+			[/\[acronym=(.*?)\](.*?)\[\/acronym\]/,'<acronym title="\1">\2</acronym>',@config[:acronym_enabled]]
 		]
 	end
 	def nobbc(s)
 		find=s.scan(/\[nobbc\](.*?)\[\/nobbc\]/)
 		find.each do |f|
 			replace=f[0].gsub("[","&#91;").gsub("]","&#93")
-			s=s.gsub(f[0],replace)
+			s=s.gsub("[nobbc]#{f[0]}[/nobbc]",replace)
 		end
-		s=s.gsub("[nobbc]","").gsub("[/nobbc]","")
+		#s=s.gsub("[nobbc]","").gsub("[/nobbc]","")
 		return s
 	end
 	def css
@@ -99,7 +106,8 @@ class TBBC
 	end
 	def uv(s)
 		find=s.scan(/\[code lang=(.*?)\](.*?)\[\/code\]/)
-		finde.each do |f|
+		find.each do |f|
+			#parse=nobbc "[nobbc]" + f[1] + "[/nobbc]"
 			r=Uv.parse(f[1], @config[:syntax_output], f[0], @config[:syntax_line_numbers], @config[:syntax_theme])
 		end
 		s=s.gsub(/\[code lang=(.*?)\]/,'').gsub("[/code]",'')
