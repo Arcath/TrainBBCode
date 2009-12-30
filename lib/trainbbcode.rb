@@ -92,7 +92,6 @@ class TBBC
 			replace=f[0].gsub("[","&#91;").gsub("]","&#93")
 			s=s.gsub("[nobbc]#{f[0]}[/nobbc]",replace)
 		end
-		#s=s.gsub("[nobbc]","").gsub("[/nobbc]","")
 		return s
 	end
 	def css
@@ -117,8 +116,9 @@ end
 
 #Add .tbbc to Strings
 class String
-	def tbbc
+	def tbbc(conf = nil)
 		bbc=TBBC.new
+		bbc.conf(conf) if conf
 		bbc.parse(self)
 	end
 end
