@@ -7,7 +7,7 @@ class TBBC
 		begin
 			require 'uv'
 			#UV Settings
-			config[:syntax_output] ||= "html"
+			config[:syntax_output] ||= "HTML"
 			config[:syntax_line_numbers] ||= true
 			config[:syntax_theme] ||= "twilight"
 		rescue LoadError
@@ -17,22 +17,19 @@ class TBBC
 		config[:image_alt] ||= "Posted Image" 
 		config[:url_target] ||= "_BLANK"
 		config[:allow_defaults] ||= true
+		config[:table_width] ||= "100%"
 		#Instanize the config variable
 		@config=config
 	end
 	def parse(s)
 		#Run the UV Parser (if enabled) to sort out any code
-		unless @config[:syntax_highlighting] == false
-			s=uv s
-		end
+		s=uv s unless @config[:syntax_highlighting] == false
 		#Remove the < and > which will disable all HTML
 		s=s.gsub("<","&lt;").gsub(">","&gt;") unless @config[:disable_html] == false
 		#Convert new lines to <br />'s
 		s=s.gsub(/\n/,'<br />') unless @config[:newline_enabled] == false
 		#[nobbc] tags
-		unless @config[:nobbc_enabled] == false
-			s=nobbc s
-		end
+		s=nobbc s unless @config[:nobbc_enabled] == false
 		#Loading Custom Tags
 		begin
 			if @config[:custom_tags] then
@@ -50,6 +47,7 @@ class TBBC
 				s=s.gsub(tag[0],tag[1]) unless tag[2] == false
 			end	
 		end
+		s=correctbrs s
 		return s
 	end
 	def load_default_tags
@@ -83,7 +81,14 @@ class TBBC
 			[/\[left\](.*?)\[\/left\]/,'<div style="text-align:left">\1</div>',@config[:alignment_enabled]],
 			[/\[right\](.*?)\[\/right\]/,'<div style="text-align:right">\1</div>',@config[:alignment_enabled]],
 			#Acronym
-			[/\[acronym=(.*?)\](.*?)\[\/acronym\]/,'<acronym title="\1">\2</acronym>',@config[:acronym_enabled]]
+			[/\[acronym=(.*?)\](.*?)\[\/acronym\]/,'<acronym title="\1">\2</acronym>',@config[:acronym_enabled]],
+			#Tables
+			#Table Tag
+			[/\[table\](.*?)\[\/table\]/,'<table width="' + @config[:table_width]+ '">\1</table>',@config[:table_enabled]],
+			#Table Elements
+			[/\[tr\](.*?)\[\/tr\]/,'<tr>\1</tr>',@config[:table_enabled]],
+			[/\[td\](.*?)\[\/td\]/,'<td>\1</td>',@config[:table_enabled]],
+			[/\[th\](.*?)\[\/th\]/,'<th>\1</th>',@config[:table_enabled]]
 		]
 	end
 	def nobbc(s)
@@ -111,6 +116,10 @@ class TBBC
 		end
 		s=s.gsub(/\[code lang=(.*?)\]/,'').gsub("[/code]",'')
 		return s
+	end
+	def correctbrs(s)
+		#Corrects the extra brs
+		s=s.gsub(/<br \/><(ul|li|table|tr|td|th)/,'<\1')
 	end
 end
 
