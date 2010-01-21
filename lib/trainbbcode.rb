@@ -106,7 +106,7 @@ class TBBC
 				
 			}
 		</style>"
-		output+=Uv.themes.map{|theme| %Q(<link rel="stylesheet" type="text/css" href="css/#{theme}.css" />\n)}
+		#output+=Uv.themes.map{|theme| %Q(<link rel="stylesheet" type="text/css" href="css/#{theme}.css" />\n)}
 		return output
 	end
 	def uv(s)
@@ -121,7 +121,7 @@ class TBBC
 	def correctbrs(s)
 		#Corrects the extra brs
 		s=s.gsub(/<br \/><(ul|li|table|tr|td|th)/,'<\1')
-		s=s.gsub(/<br \/><\/(ul|li|table|tr|td|th)/,'<\1')
+		s=s.gsub(/<br \/><\/(ul|li|table|tr|td|th)/,'</\1')
 	end
 end
 
