@@ -24,7 +24,7 @@ class TBBC
 	end
 	def parse(s)
 		#Run the UV Parser (if enabled) to sort out any code
-		s=uv s unless @config[:syntax_highlighting] == false
+		#s=uv s unless @config[:syntax_highlighting] == false
 		#Remove the < and > which will disable all HTML
 		s=s.gsub("<","&lt;").gsub(">","&gt;") unless @config[:disable_html] == false
 		#Convert new lines to <br />'s
@@ -110,13 +110,13 @@ class TBBC
 		return output
 	end
 	def uv(s)
-		find=s.scan(/\[code lang=(.*?)\](.*?)\[\/code\]/)
-		find.each do |f|
+		#find=s.scan(/\[code lang=(.*?)\](.*?)\[\/code\]/)
+		#find.each do |f|
 			#parse=nobbc "[nobbc]" + f[1] + "[/nobbc]"
-			r=Uv.parse(f[1], @config[:syntax_output], f[0], @config[:syntax_line_numbers], @config[:syntax_theme])
-		end
-		s=s.gsub(/\[code lang=(.*?)\]/,'').gsub("[/code]",'')
-		return s
+			#r=Uv.parse(f[1], @config[:syntax_output], f[0], @config[:syntax_line_numbers], @config[:syntax_theme])
+		#end
+		#s=s.gsub(/\[code lang=(.*?)\]/,'').gsub("[/code]",'')
+		#return s
 	end
 	def correctbrs(s)
 		#Corrects the extra brs
