@@ -4,20 +4,21 @@ class TBBC
 	end
 	def conf(config)
 		require 'rubygems'
-		begin
-			require 'uv'
+		#begin
+		#	require 'uv'
 			#UV Settings
-			config[:syntax_output] ||= "HTML"
-			config[:syntax_line_numbers] ||= true
-			config[:syntax_theme] ||= "twilight"
-		rescue LoadError
-			config[:syntax_highlighting]=false
-		end
+		#	config[:syntax_output] ||= "HTML"
+		#	config[:syntax_line_numbers] ||= true
+		#	config[:syntax_theme] ||= "twilight"
+		#rescue LoadError
+		#	config[:syntax_highlighting]=false
+		#end
 		config[:configed_by] ||= "user"
 		config[:image_alt] ||= "Posted Image" 
 		config[:url_target] ||= "_BLANK"
 		config[:allow_defaults] ||= true
 		config[:table_width] ||= "100%"
+		config[:syntax_theme] ||=
 		#Instanize the config variable
 		@config=config
 	end
@@ -120,6 +121,7 @@ class TBBC
 	def correctbrs(s)
 		#Corrects the extra brs
 		s=s.gsub(/<br \/><(ul|li|table|tr|td|th)/,'<\1')
+		s=s.gsub(/<br \/><\/(ul|li|table|tr|td|th)/,'<\1')
 	end
 end
 
