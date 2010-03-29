@@ -4,27 +4,37 @@ class TBBC
 	end
 	def conf(config)
 		require 'rubygems'
-		#begin
-		#	require 'uv'
-			#UV Settings
-		#	config[:syntax_output] ||= "HTML"
-		#	config[:syntax_line_numbers] ||= true
-		#	config[:syntax_theme] ||= "twilight"
-		#rescue LoadError
-		#	config[:syntax_highlighting]=false
-		#end
-		config[:configed_by] ||= "user"
-		config[:image_alt] ||= "Posted Image" 
-		config[:url_target] ||= "_BLANK"
-		config[:allow_defaults] ||= true
-		config[:table_width] ||= "100%"
-		config[:syntax_theme] ||=
+		require 'coderay'
+		config[:configed_by]			||= "user"
+		config[:image_alt]			||= "Posted Image" 
+		config[:url_target]			||= "_BLANK"
+		config[:allow_defaults]			||= true
+		config[:table_width]			||= "100%"
+		config[:syntax_highlighting]		||= true
+		config[:syntax_highlighting_html]	||= "color: #E7BE69"
+		config[:syntax_highlighting_comment]	||= "color:#BC9358; font-style: italic;"
+		config[:syntax_highlighting_escaped]	||= "color:#509E4F"
+		config[:syntax_highlighting_class]	||= "color:#FFF"
+		config[:syntax_highlighting_constant]	||= "color:#FFF"
+		config[:syntax_highlighting_float]	||= "color:#A4C260"
+		config[:syntax_highlighting_function]	||= "color:#FFC56D"
+		config[:syntax_highlighting_global]	||= "color:#D0CFFE"
+		config[:syntax_highlighting_integer]	||= "color:#A4C260"
+		config[:syntax_highlighting_inline]	||= "background:#151515"
+		config[:syntax_highlighting_instance]	||= "color:#D0CFFE"
+		config[:syntax_highlighting_doctype]	||= "color:#E7BE69"
+		config[:syntax_highlighting_keyword]	||= "color:#CB7832"
+		config[:syntax_highlighting_regex]	||= "color:#A4C260"
+		config[:syntax_highlighting_string]	||= "color:#A4C260"
+		config[:syntax_highlighting_symbol]	||= "color:#6C9CBD"
+		config[:syntax_highlighting_html]	||= "color:#E7BE69"
+		config[:syntax_highlighting_boolean]	||= "color:#6C9CBD"
 		#Instanize the config variable
 		@config=config
 	end
 	def parse(s)
-		#Run the UV Parser (if enabled) to sort out any code
-		#s=uv s unless @config[:syntax_highlighting] == false
+		#CodeRay
+		s=coderay(s)
 		#Remove the < and > which will disable all HTML
 		s=s.gsub("<","&lt;").gsub(">","&gt;") unless @config[:disable_html] == false
 		#Convert new lines to <br />'s
@@ -102,26 +112,51 @@ class TBBC
 	end
 	def css
 		output="<style type=\"text/css\">
-			blockquote{
-				
+			.CodeRay {
+				background-color: #232323;
+				border: 1px solid black;
+				font-family: 'Courier New', 'Terminal', monospace;
+				color: #E6E0DB;
+				padding: 3px 5px;
+				overflow: auto;
+				font-size: 12px;
+				margin: 12px 0;
 			}
-		</style>"
-		#output+=Uv.themes.map{|theme| %Q(<link rel="stylesheet" type="text/css" href="css/#{theme}.css" />\n)}
+			.CodeRay pre {
+				margin: 0px;
+				padding: 0px;
+			}
+
+			.CodeRay .an { #{@config[:syntax_highlighting_html]} }		/* html attribute */
+			.CodeRay .c  { #{@config[:syntax_highlighting_comment]} }	/* comment */
+			.CodeRay .ch { #{@config[:syntax_highlighting_escaped]} }	/* escaped character */
+			.CodeRay .cl { #{@config[:syntax_highlighting_class]} }		/* class */
+			.CodeRay .co { #{@config[:syntax_highlighting_constant]} }	/* constant */
+			.CodeRay .fl { #{@config[:syntax_highlighting_float]} }		/* float */
+			.CodeRay .fu { #{@config[:syntax_highlighting_function]} }	/* function */
+			.CodeRay .gv { #{@config[:syntax_highlighting_global]} }	/* global variable */
+			.CodeRay .i  { #{@config[:syntax_highlighting_integer]} }	/* integer */
+			.CodeRay .il { #{@config[:syntax_highlighting_inline]} }	/* inline code */
+			.CodeRay .iv { #{@config[:syntax_highlighting_instance]} }	/* instance variable */
+			.CodeRay .pp { #{@config[:syntax_highlighting_doctype]} }	/* doctype */
+			.CodeRay .r  { #{@config[:syntax_highlighting_keyword]} }	/* keyword */
+			.CodeRay .rx { #{@config[:syntax_highlighting_regex]} }		/* regex */
+			.CodeRay .s  { #{@config[:syntax_highlighting_string]} }	/* string */
+			.CodeRay .sy { #{@config[:syntax_highlighting_symbol]} }	/* symbol */
+			.CodeRay .ta { #{@config[:syntax_highlighting_html]} }		/* html tag */
+			.CodeRay .pc { #{@config[:syntax_highlighting_boolean]} }	/* boolean */
+		</style>" 
 		return output
-	end
-	def uv(s)
-		#find=s.scan(/\[code lang=(.*?)\](.*?)\[\/code\]/)
-		#find.each do |f|
-			#parse=nobbc "[nobbc]" + f[1] + "[/nobbc]"
-			#r=Uv.parse(f[1], @config[:syntax_output], f[0], @config[:syntax_line_numbers], @config[:syntax_theme])
-		#end
-		#s=s.gsub(/\[code lang=(.*?)\]/,'').gsub("[/code]",'')
-		#return s
 	end
 	def correctbrs(s)
 		#Corrects the extra brs
 		s=s.gsub(/<br \/><(ul|li|table|tr|td|th)/,'<\1')
 		s=s.gsub(/<br \/><\/(ul|li|table|tr|td|th)/,'</\1')
+	end
+	def coderay(s)
+		s.gsub(/\[code( lang="(.+?)")?\](.+?)\[\/code\]/m) do
+			"[nobbc]" + CodeRay.scan($3, $2).div(:css => :class) + "[/nobbc]"
+		end
 	end
 end
 
