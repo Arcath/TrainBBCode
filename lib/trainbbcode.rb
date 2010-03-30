@@ -158,22 +158,8 @@ class TBBC
 		
 		s.gsub(/\[code( lang=(.+?))?\](.+?)\[\/code\]/m) do
 			parse=$3.gsub("&lt;","<").gsub("&gt;",">")
-			"[nobbc][#{@securitykey}]" + CodeRay.scan(parse, $2).div(:css => :class) + "[/#{@securitykey}][/nobbc]"
+			"[nobbc]" + CodeRay.scan(parse, $2).div(:css => :class) + "[/nobbc]"
 		end
-	end
-	def cleanhtml(s)
-		securitykey=@securitykey
-		find=s.scan(/\[nobbc\]\[#{securitykey}\](.*?)\[\/#{securitykey}\]\[\/nobbc\]/)
-		puts s
-		puts find
-		s=s.gsub("<","&lt;").gsub(">","&gt;")
-		afind=s.scan(/\[nobbc\]\[#{securitykey}\](.*?)\[\/#{securitykey}\]\[\/nobbc\]/)
-		i=0
-		afind.each do |af|
-			s=s.gsub("[#{@securitykey}]#{af[0]}[/#{@securitykey}]",find[i][0])
-			i+=1
-		end
-		return s
 	end
 end
 
