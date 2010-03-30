@@ -1,6 +1,7 @@
 class TBBC
 	def initialize
 		self.conf(:configed_by => "system")
+		@securitykey="#{Time.now.to_i}"
 	end
 	def conf(config)
 		require 'rubygems'
@@ -33,10 +34,10 @@ class TBBC
 		@config=config
 	end
 	def parse(s)
-		#CodeRay
-		s=coderay(s)
 		#Remove the < and > which will disable all HTML
 		s=s.gsub("<","&lt;").gsub(">","&gt;") unless @config[:disable_html] == false
+		#CodeRay
+		s=coderay(s)
 		#Convert new lines to <br />'s
 		s=s.gsub(/\n/,'<br />') unless @config[:newline_enabled] == false
 		#[nobbc] tags
@@ -154,9 +155,25 @@ class TBBC
 		s=s.gsub(/<br \/><\/(ul|li|table|tr|td|th)/,'</\1')
 	end
 	def coderay(s)
-		s.gsub(/\[code( lang="(.+?)")?\](.+?)\[\/code\]/m) do
-			"[nobbc]" + CodeRay.scan($3, $2).div(:css => :class) + "[/nobbc]"
+		
+		s.gsub(/\[code( lang=(.+?))?\](.+?)\[\/code\]/m) do
+			parse=$3.gsub("&lt;","<").gsub("&gt;",">")
+			"[nobbc][#{@securitykey}]" + CodeRay.scan(parse, $2).div(:css => :class) + "[/#{@securitykey}][/nobbc]"
 		end
+	end
+	def cleanhtml(s)
+		securitykey=@securitykey
+		find=s.scan(/\[nobbc\]\[#{securitykey}\](.*?)\[\/#{securitykey}\]\[\/nobbc\]/)
+		puts s
+		puts find
+		s=s.gsub("<","&lt;").gsub(">","&gt;")
+		afind=s.scan(/\[nobbc\]\[#{securitykey}\](.*?)\[\/#{securitykey}\]\[\/nobbc\]/)
+		i=0
+		afind.each do |af|
+			s=s.gsub("[#{@securitykey}]#{af[0]}[/#{@securitykey}]",find[i][0])
+			i+=1
+		end
+		return s
 	end
 end
 
