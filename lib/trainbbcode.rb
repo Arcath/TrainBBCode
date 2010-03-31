@@ -156,11 +156,13 @@ class TBBC
 		s=s.gsub(/<br \/><\/(ul|li|table|tr|td|th)/,'</\1')
 	end
 	def coderay(s)	
+		s=s.gsub("\r","")
 		scan=s.scan(/\[code lang=(.+?)\](.+?)\[\/code\]/m)
 		scan.each do |a|
 			parse=a[1].gsub("&lt;","<").gsub("&gt;",">")
 			lang=a[0]
-			s=s.gsub(/\[code lang=.+?\]#{a[1]}\[\/code\]/m,"[nobbc]" + CodeRay.scan(parse, lang).div(:css => :class, :line_numbers => @config[:syntax_highlighting_line_numbers]) + "[/nobbc]")
+			parsed="[nobbc]" + CodeRay.scan(parse, lang).div(:css => :class, :line_numbers => @config[:syntax_highlighting_line_numbers]) + "[/nobbc]"
+			s=s.gsub("[code lang=#{a[0]}]#{a[1]}[/code]",parsed)
 		end
 		s
 	end
