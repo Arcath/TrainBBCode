@@ -157,9 +157,12 @@ class TBBC
 	end
 	def coderay(s)	
 		scan=s.scan(/\[code lang=(.+?)\](.+?)\[\/code\]/m)
-		parse=scan[0][1].gsub("&lt;","<").gsub("&gt;",">")
-		lang=scan[0][0]
-		"[nobbc]" + CodeRay.scan(parse, lang).div(:css => :class, :line_numbers => @config[:syntax_highlighting_line_numbers]) + "[/nobbc]"
+		scan.each do |a|
+			parse=a[1].gsub("&lt;","<").gsub("&gt;",">")
+			lang=a[0]
+			s=s.gsub(/\[code lang=.+?\]#{a[1]}\[\/code\]/m,"[nobbc]" + CodeRay.scan(parse, lang).div(:css => :class, :line_numbers => @config[:syntax_highlighting_line_numbers]) + "[/nobbc]")
+		end
+		s
 	end
 end
 
@@ -171,3 +174,6 @@ class String
 		bbc.parse(self)
 	end
 end
+
+t=TBBC.new
+puts t.parse("[code lang=ruby]def test\nputs \"MMMMMMMUlti Line\"\nend[/code]\nThis is a bit more text\n[code lang=ruby]a=\"TESTING\"[/code]")
