@@ -30,6 +30,7 @@ class TBBC
 		config[:syntax_highlighting_symbol]	||= "color:#6C9CBD"
 		config[:syntax_highlighting_html]	||= "color:#E7BE69"
 		config[:syntax_highlighting_boolean]	||= "color:#6C9CBD"
+		config[:syntax_highlighting_line_numbers]||= :inline
 		#Instanize the config variable
 		@config=config
 	end
@@ -37,7 +38,7 @@ class TBBC
 		#Remove the < and > which will disable all HTML
 		s=s.gsub("<","&lt;").gsub(">","&gt;") unless @config[:disable_html] == false
 		#CodeRay
-		s=coderay(s)
+		s=coderay(s) unless @config[:syntax_highlighting] == false
 		#Convert new lines to <br />'s
 		s=s.gsub(/\n/,'<br />') unless @config[:newline_enabled] == false
 		#[nobbc] tags
@@ -154,12 +155,11 @@ class TBBC
 		s=s.gsub(/<br \/><(ul|li|table|tr|td|th)/,'<\1')
 		s=s.gsub(/<br \/><\/(ul|li|table|tr|td|th)/,'</\1')
 	end
-	def coderay(s)
-		
-		s.gsub(/\[code( lang=(.+?))?\](.+?)\[\/code\]/m) do
-			parse=$3.gsub("&lt;","<").gsub("&gt;",">")
-			"[nobbc]" + CodeRay.scan(parse, $2).div(:css => :class) + "[/nobbc]"
-		end
+	def coderay(s)	
+		scan=s.scan(/\[code lang=(.+?)\](.+?)\[\/code\]/m)
+		parse=scan[0][1].gsub("&lt;","<").gsub("&gt;",">")
+		lang=scan[0][0]
+		"[nobbc]" + CodeRay.scan(parse, lang).div(:css => :class, :line_numbers => @config[:syntax_highlighting_line_numbers]) + "[/nobbc]"
 	end
 end
 
