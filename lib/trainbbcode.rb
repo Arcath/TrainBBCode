@@ -174,6 +174,3 @@ class String
 		bbc.parse(self)
 	end
 end
-
-t=TBBC.new
-puts t.parse("[code lang=ruby]def test\nputs \"MMMMMMMUlti Line\"\nend[/code]\nThis is a bit more text\n[code lang=ruby]a=\"TESTING\"[/code]")
