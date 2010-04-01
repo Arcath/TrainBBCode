@@ -1,7 +1,8 @@
 class TBBC
+	#TrainBBCode
+	#BBCode for Train
 	def initialize
 		self.conf(:configed_by => "system")
-		@securitykey="#{Time.now.to_i}"
 	end
 	def conf(config)
 		require 'rubygems'
@@ -12,7 +13,7 @@ class TBBC
 		config[:allow_defaults]			||= true
 		config[:table_width]			||= "100%"
 		config[:syntax_highlighting]		||= true
-		config[:syntax_highlighting_html]	||= "color: #E7BE69"
+		config[:syntax_highlighting_html]	||= "color:#E7BE69"
 		config[:syntax_highlighting_comment]	||= "color:#BC9358; font-style: italic;"
 		config[:syntax_highlighting_escaped]	||= "color:#509E4F"
 		config[:syntax_highlighting_class]	||= "color:#FFF"
@@ -34,34 +35,36 @@ class TBBC
 		#Instanize the config variable
 		@config=config
 	end
-	def parse(s)
+	def parse(input)
 		#Remove the < and > which will disable all HTML
-		s=s.gsub("<","&lt;").gsub(">","&gt;") unless @config[:disable_html] == false
+		input=input.gsub("<","&lt;").gsub(">","&gt;") unless @config[:disable_html] == false
 		#CodeRay
-		s=coderay(s) unless @config[:syntax_highlighting] == false
+		input=coderay(input) unless @config[:syntax_highlighting] == false
 		#Convert new lines to <br />'s
-		s=s.gsub(/\n/,'<br />') unless @config[:newline_enabled] == false
+		input=input.gsub(/\n/,'<br />') unless @config[:newline_enabled] == false
 		#[nobbc] tags
-		s=nobbc s unless @config[:nobbc_enabled] == false
+		input=nobbc input unless @config[:nobbc_enabled] == false
 		#Loading Custom Tags
 		begin
 			if @config[:custom_tags] then
 				@config[:custom_tags].each do |tag|
-					s=s.gsub(tag[0],tag[1]) unless tag[2] == false
+					input=runtag(input,tag)
 				end
 			end
 		rescue
-			s+="<br />Custom Tags failed to run"
+			input+="<br />Custom Tags failed to run"
 		end
 		#Loading Default Tags and applying them
 		if @config[:allow_defaults] then
-			tags=load_default_tags
-			tags.each do |tag|
-				s=s.gsub(tag[0],tag[1]) unless tag[2] == false
+			load_default_tags.each do |tag|
+				input=runtag(input,tag)
 			end	
 		end
-		s=correctbrs s
-		return s
+		input=correctbrs input
+		return input
+	end
+	def runtag(s,tag)
+		s.gsub(tag[0],tag[1]) unless tag[2] == false
 	end
 	def load_default_tags
 		tags=[
@@ -155,16 +158,16 @@ class TBBC
 		s=s.gsub(/<br \/><(ul|li|table|tr|td|th)/,'<\1')
 		s=s.gsub(/<br \/><\/(ul|li|table|tr|td|th)/,'</\1')
 	end
-	def coderay(s)	
-		s=s.gsub("\r","")
-		scan=s.scan(/\[code lang=(.+?)\](.+?)\[\/code\]/m)
-		scan.each do |a|
-			parse=a[1].gsub("&lt;","<").gsub("&gt;",">")
-			lang=a[0]
+	def coderay(input)	
+		input=input.gsub("\r","")
+		scan=input.scan(/\[code lang=(.+?)\](.+?)\[\/code\]/m)
+		scan.each do |splits|
+			parse=splits[1].gsub("&lt;","<").gsub("&gt;",">")
+			lang=splits[0]
 			parsed="[nobbc]" + CodeRay.scan(parse, lang).div(:css => :class, :line_numbers => @config[:syntax_highlighting_line_numbers]) + "[/nobbc]"
-			s=s.gsub("[code lang=#{a[0]}]#{a[1]}[/code]",parsed)
+			input=input.gsub("[code lang=#{lang}]#{splits[1]}[/code]",parsed)
 		end
-		s
+		input
 	end
 end
 
@@ -176,3 +179,6 @@ class String
 		bbc.parse(self)
 	end
 end
+
+t=TBBC.new
+puts t.parse("[code lang=ruby]def test()\r\nputs \"test\"end[/code]")
