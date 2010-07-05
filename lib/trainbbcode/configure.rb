@@ -23,7 +23,7 @@ class TBBC
 		@config[:configed_by]			||= "user"
 		@config[:image_alt]			||= "Posted Image" 
 		@config[:url_target]			||= "_BLANK"
-		@config[:allow_defaults]			||= true
+		@config[:allow_defaults]		||= true
 		@config[:table_width]			||= "100%"
 		@config[:syntax_highlighting]		||= true
 		@config[:syntax_highlighting_html]	||= "color:#E7BE69"

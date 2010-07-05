@@ -26,7 +26,8 @@ class TBBC
 	def runtag(s,tag)
 		check = tag[2]
 		check = @config[tag[2]] if is_symbol? tag[2]
-		s.gsub(tag[0],replace_config_values(tag[1])) unless check == false
+		s=s.gsub(tag[0],replace_config_values(tag[1])) unless check == false
+		s
 	end
 	
 	private

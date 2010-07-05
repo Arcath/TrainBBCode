@@ -22,4 +22,15 @@ to config/enviroments.rb and then install the gem using:
 
 == Usage
 
-TODO
+The easiest way to use tbbc is with the string method provided, for example
+
+    >> "[b]Bold[/b]".tbbc
+    => "<strong>Bold</strong>"
+
+== Configuration
+
+=== On the fly
+
+If you want to quickly change something, e.g. disable a tag for a specific .tbbc call then you can configure it in the call:
+
+    >> "
