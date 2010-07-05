@@ -22,6 +22,8 @@ class TBBC
 		[/\[td\](.*?)\[\/td\]/,'<td>\1</td>',:table_enabled],
 		[/\[th\](.*?)\[\/th\]/,'<th>\1</th>',:table_enabled]]
 	
+	private
+	
 	# Runs the given tag array on the given string.
 	def runtag(s,tag)
 		check = tag[2]
@@ -29,8 +31,6 @@ class TBBC
 		s=s.gsub(tag[0],replace_config_values(tag[1])) unless check == false
 		s
 	end
-	
-	private
 	
 	def is_symbol?(v)
 		v == v.to_sym

@@ -33,4 +33,20 @@ The easiest way to use tbbc is with the string method provided, for example
 
 If you want to quickly change something, e.g. disable a tag for a specific .tbbc call then you can configure it in the call:
 
-    >> "
+    >> "[b]Bold[/b] [i]Italic[/i]".tbbc(:strong_enabled => false)
+    => "[b]Bold[/b] <i>Italic</i>"
+
+Whilst this method works its not the cleanest way of doing it. Its fine for simple things like disabling a single tag (e.g. tables in signatures) but when defining custom tags or the coderay css its better to use the other config method
+
+=== Globaly
+
+This is done using config/tbbc.rb, this file needs to look like this:
+
+    class TBBC
+        def user_config
+            #Change the Config here
+            @config[:strong_enabled] = false
+        end
+    end
+
+That would produce the same output as the on the fly config but would work when ever you used .tbbc in the project.
