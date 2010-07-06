@@ -3,8 +3,13 @@ require 'trainbbcode/tags.rb'
 require 'trainbbcode/configure.rb'
 require 'trainbbcode/string.rb'
 require 'trainbbcode/css.rb'
+require 'trainbbcode/swear_filter.rb'
 require 'rubygems'
 require 'coderay'
+
+#Helper Method
+require 'trainbbcode/application_helper.rb'
+ActionView::Base.send :include, TBBCHelper
 
 class TBBC
 	# Creates a new TBBC class with everything set to default
@@ -13,6 +18,8 @@ class TBBC
 	def initialize
 		self.conf(:configed_by => "system")
 	end
+	
+	private
 	
 	def nobbc(s)
 		find=s.scan(/\[nobbc\](.*?)\[\/nobbc\]/)

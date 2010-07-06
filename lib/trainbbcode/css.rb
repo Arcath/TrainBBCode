@@ -1,6 +1,8 @@
 class TBBC
-	def css
-		output="<style type=\"text/css\">
+
+	def css(config = nil)
+		conf config
+		output="		<style type=\"text/css\">
 			.CodeRay {
 				background-color: #232323;
 				border: 1px solid black;

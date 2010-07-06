@@ -12,7 +12,7 @@ class TBBC
 	
 	# Loads the users config file
 	def load_config_from_file
-		require 'config/tbbc.rb'
+		load 'config/tbbc.rb'
 		user_config
 	end
 	
@@ -45,5 +45,6 @@ class TBBC
 		@config[:syntax_highlighting_html]	||= "color:#E7BE69"
 		@config[:syntax_highlighting_boolean]	||= "color:#6C9CBD"
 		@config[:syntax_highlighting_line_numbers]||= :inline
+		@config[:swear_words]			||= []
 	end
 end

@@ -13,6 +13,8 @@ class TBBC
 		input=input.gsub(/\n/,'<br />') unless @config[:newline_enabled] == false
 		#[nobbc] tags
 		input=nobbc input unless @config[:nobbc_enabled] == false
+		#Swear Filtering
+		input=swear_filter(input) unless @config[:swear_filter_enabled] == false
 		#Loading Custom Tags
 		begin
 			if @config[:custom_tags] then
