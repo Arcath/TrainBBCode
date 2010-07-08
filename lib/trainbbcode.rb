@@ -8,8 +8,10 @@ require 'rubygems'
 require 'coderay'
 
 #Helper Method
-require 'trainbbcode/application_helper.rb'
-ActionView::Base.send :include, TBBCHelper
+if defined? RAILS_ROOT then
+	require 'trainbbcode/application_helper.rb'
+	ActionView::Base.send :include, TBBCHelper
+end
 
 class TBBC
 	# Creates a new TBBC class with everything set to default
