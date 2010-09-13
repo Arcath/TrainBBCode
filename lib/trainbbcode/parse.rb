@@ -16,15 +16,15 @@ class TBBC
 		#Swear Filtering
 		input=swear_filter(input) unless @config[:swear_filter_enabled] == false
 		#Loading Custom Tags
-		begin
+		#begin
 			if @config[:custom_tags] then
 				@config[:custom_tags].each do |tag|
 					input=runtag(input,tag)
 				end
 			end
-		rescue
-			input+="<br />Custom Tags failed to run"
-		end
+		#rescue
+			#input+="<br />Custom Tags failed to run"
+		#end
 		#Loading Default Tags and applying them
 		if @config[:allow_defaults] then
 			TBBC::Tags.each do |tag|
