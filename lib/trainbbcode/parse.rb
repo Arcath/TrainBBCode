@@ -32,6 +32,10 @@ class TBBC
 			end	
 		end
 		input=correctbrs input
-		return input
+		if needs_html_safe? then
+			return input.html_safe
+		else
+			return input
+		end
 	end
 end

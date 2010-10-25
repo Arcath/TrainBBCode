@@ -1,5 +1,6 @@
 class TBBC
-
+	
+	# Returns the css required for coderay
 	def css(config = nil)
 		conf config
 		output="		<style type=\"text/css\">
@@ -37,6 +38,10 @@ class TBBC
 			.CodeRay .ta { #{@config[:syntax_highlighting_html]} }		/* html tag */
 			.CodeRay .pc { #{@config[:syntax_highlighting_boolean]} }	/* boolean */
 		</style>" 
-		return output
+		if needs_html_safe? then
+			return output.html_safe
+		else
+			return output
+		end
 	end
 end

@@ -8,8 +8,10 @@ require 'rubygems'
 require 'coderay'
 
 #Helper Method
-require 'trainbbcode/application_helper.rb'
-ActionView::Base.send :include, TBBCHelper
+if defined? Rails
+	require 'trainbbcode/application_helper.rb'
+	ActionView::Base.send :include, TBBCHelper
+end
 
 class TBBC
 	# Creates a new TBBC class with everything set to default
@@ -47,5 +49,12 @@ class TBBC
 		end
 		input
 	end
-	
+
+	def needs_html_safe?
+		if defined? Rails
+			return Rails.version =~ /^3\./
+		else
+			return false
+		end
+	end
 end
