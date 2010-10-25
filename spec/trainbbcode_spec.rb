@@ -14,4 +14,8 @@ describe String, "#tbbc" do
 	it "Should return <strong>BOLD [i]italics[/i]</strong> when italics are disabled" do
 		"[b]BOLD [i]italics[/i][/b]".tbbc(:italic_enabled => false).should == "<strong>BOLD [i]italics[/i]</strong>"
 	end
+	
+	it "Should allow custom tags to run and return <strong><i>BOLD italics</i></strong> for [bi]BOLD italics[/bi]" do
+		"[bi]BOLD italics[/bi]".tbbc(:custom_tags => [[/\[bi\](.*?)\[\/bi\]/,'<strong><i>\1</i></strong>',true]]).should == "<strong><i>BOLD italics</i></strong>"
+	end
 end

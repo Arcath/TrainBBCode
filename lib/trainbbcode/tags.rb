@@ -33,6 +33,7 @@ class TBBC
 	end
 	
 	def is_symbol?(v)
+		return false if (v == true or v == false)
 		v == v.to_sym
 	end
 	
