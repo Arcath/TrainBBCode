@@ -4,3 +4,4 @@ Manifest
 *.gem
 *.gemspec
 *~
+tmp/*

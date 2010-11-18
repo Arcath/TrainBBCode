@@ -28,7 +28,12 @@ class TBBC
 	def runtag(s,tag)
 		check = tag[2]
 		check = @config[tag[2]] if is_symbol? tag[2]
-		s=s.gsub(tag[0],replace_config_values(tag[1])) unless check == false
+		if tag[1] =~ /^Callback:/
+			pattern = run_callback(s, tag[0], tag[1])
+		else
+			pattern = tag[1]
+		end
+		s=s.gsub(tag[0],replace_config_values(pattern)) unless check == false
 		s
 	end
 	
@@ -43,5 +48,18 @@ class TBBC
 		else
 			return s
 		end
+	end
+
+	def run_callback(string, regex, callback)
+		code = callback.gsub(/^Callback: /, '')
+		arguments = string.scan(regex)[0]
+		arguments_pass = build_pass_string(arguments)
+		eval "#{code}#{arguments_pass}"
+	end
+
+	def build_pass_string(args)
+		output = "("
+		args.map { |arg| output = "#{output}\"#{arg}\", " }
+		output.gsub(/, $/,')')
 	end
 end

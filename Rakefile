@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'rake'
 require 'echoe'
+require 'metric_fu'
 
 Echoe.new('trainbbcode','1.0.1') do |p|
 	p.description	= "Provides BBCode for Ruby."
