@@ -53,8 +53,12 @@ class TBBC
 	def run_callback(string, regex, callback)
 		code = callback.gsub(/^Callback: /, '')
 		arguments = string.scan(regex)[0]
-		arguments_pass = build_pass_string(arguments)
-		eval "#{code}#{arguments_pass}"
+		if arguments
+			arguments_pass = build_pass_string(arguments)
+			return eval "#{code}#{arguments_pass}"
+		else
+			return ""
+		end	
 	end
 
 	def build_pass_string(args)
