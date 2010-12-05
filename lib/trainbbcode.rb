@@ -44,7 +44,7 @@ class TBBC
 		scan.each do |splits|
 			parse=splits[1].gsub("&lt;","<").gsub("&gt;",">")
 			lang=splits[0]
-			parsed="[nobbc]" + CodeRay.scan(parse, lang).div(:css => :class, :line_numbers => @config[:syntax_highlighting_line_numbers]) + "[/nobbc]"
+			parsed="[nobbc]" + CodeRay.scan(parse, lang).div(:line_numbers => @config[:syntax_highlighting_line_numbers]) + "[/nobbc]"
 			input=input.gsub("[code lang=#{lang}]#{splits[1]}[/code]",parsed)
 		end
 		input

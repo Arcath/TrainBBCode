@@ -29,11 +29,11 @@ class TBBC
 		check = tag[2]
 		check = @config[tag[2]] if is_symbol? tag[2]
 		if tag[1] =~ /^Callback:/
-			pattern = run_callback(s, tag[0], tag[1])
+			s = run_callback(s, tag[0], tag[1])
 		else
 			pattern = tag[1]
+			s=s.gsub(tag[0],replace_config_values(pattern)) unless check == false
 		end
-		s=s.gsub(tag[0],replace_config_values(pattern)) unless check == false
 		s
 	end
 	
@@ -52,13 +52,13 @@ class TBBC
 
 	def run_callback(string, regex, callback)
 		code = callback.gsub(/^Callback: /, '')
-		arguments = string.scan(regex)[0]
-		if arguments
+		output = string
+		string.scan(regex).each do |arguments|
 			arguments_pass = build_pass_string(arguments)
-			return eval "#{code}#{arguments_pass}"
-		else
-			return ""
-		end	
+			replace = eval "#{code}#{arguments_pass}"
+			output = output.sub(regex, replace)
+		end
+		output
 	end
 
 	def build_pass_string(args)
