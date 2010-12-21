@@ -1,7 +1,6 @@
-pkg
-doc
+pkg/*
 Manifest
 *.gem
-*.gemspec
 *~
 tmp/*
+*.bundle
