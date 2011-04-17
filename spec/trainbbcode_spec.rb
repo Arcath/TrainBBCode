@@ -5,9 +5,11 @@ def upcaser(input)
 end
 
 describe TBBC, "#parse" do
-	it "Should return <strong>BOLD</strong> for [b]BOLD[/b]" do
-		TBBC.new.parse("[b]BOLD[/b]").should == "<strong>BOLD</strong>"
-	end
+	TBBC::Tags.each do |tag|
+	   it "Should return #{tag[4]} for #{tag[3]}" do
+	       tag[3].tbbc.should == tag[4]
+       end
+    end
 end
 
 describe String, "#tbbc" do
