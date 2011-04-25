@@ -20,7 +20,11 @@ class TBBC
 		[/\[table\](.*?)\[\/table\]/,'<table width="@config[:table_width]">\1</table>',:table_enabled,"[table]...[/table]","<table width=\"100%\">...</table>"],
 		[/\[tr\](.*?)\[\/tr\]/,'<tr>\1</tr>',:table_enabled,"[tr]...[/tr]","<tr>...</tr>"],
 		[/\[td\](.*?)\[\/td\]/,'<td>\1</td>',:table_enabled,"[td]...[/td]","<td>...</td>"],
-		[/\[th\](.*?)\[\/th\]/,'<th>\1</th>',:table_enabled,"[th]...[/th]","<th>...</th>"]]
+		[/\[th\](.*?)\[\/th\]/,'<th>\1</th>',:table_enabled,"[th]...[/th]","<th>...</th>"],
+		[/\[h1\](.*?)\[\/h1\]/,'<h1>\1</h1>',:header_enabled,'[h1]heading[/h1]',"<h1>heading</h1>"],
+		[/\[h2\](.*?)\[\/h2\]/,'<h2>\1</h2>',:header_enabled,'[h2]heading[/h2]',"<h2>heading</h2>"],
+		[/\[h3\](.*?)\[\/h3\]/,'<h3>\1</h3>',:header_enabled,'[h3]heading[/h3]',"<h3>heading</h3>"],
+		[/\[h4\](.*?)\[\/h4\]/,'<h4>\1</h4>',:header_enabled,'[h4]heading[/h4]',"<h4>heading</h4>"]]
 	
 	private
 	

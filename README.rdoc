@@ -10,15 +10,15 @@ Rails Gem for BBCode
 
 For rails you will need to add:
 
-    config.gem "trainbbcode"
+    gem "trainbbcode"
 
-to config/enviroments.rb and then install the gem using:
+to your Gemfile and then install the gem using:
 
-    rake gems:install
+    bundle install
     
 === As a Plugin
 
-    script/plugin install git://github.com/Arcath/TrainBBCode
+    rails plugin install git://github.com/Arcath/TrainBBCode
 
 == Usage
 
