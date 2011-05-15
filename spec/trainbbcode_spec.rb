@@ -35,5 +35,5 @@ describe String, "#tbbc" do
 
 	it "Should allow for 2 identical callbacks per string" do
 		"[up]HeLlo WorLd[/up] and [up]Bye bYe WorLd[/up]".tbbc(:custom_tags => [[/\[up\](.*?)\[\/up\]/,"Callback: upcaser",true]]).should == "HELLO WORLD and BYE BYE WORLD"
-	end 
+	end
 end

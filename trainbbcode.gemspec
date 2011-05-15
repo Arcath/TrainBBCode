@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
 	s.platform = Gem::Platform::RUBY
 	s.authors = ["Adam \"Arcath\" Laycock"]
 	s.email = ["gems@arcath.net"]
-	s.homepage = "http://www.arcath.net"
+	s.homepage = "http://trainbbcode.arcath.net"
 	s.summary = "Provides BBCode for Ruby."
 	
 	s.add_development_dependency "rspec"

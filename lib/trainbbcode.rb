@@ -4,6 +4,7 @@ require 'trainbbcode/configure.rb'
 require 'trainbbcode/string.rb'
 require 'trainbbcode/css.rb'
 require 'trainbbcode/swear_filter.rb'
+require 'trainbbcode/coderay'
 require 'rubygems'
 require 'coderay'
 
@@ -36,18 +37,6 @@ class TBBC
 		#Corrects the extra brs
 		s=s.gsub(/<br \/><(ul|li|table|tr|td|th)/,'<\1')
 		s=s.gsub(/<br \/><\/(ul|li|table|tr|td|th)/,'</\1')
-	end
-	
-	def coderay(input)	
-		input=input.gsub("\r","")
-		scan=input.scan(/\[code lang=(.+?)\](.+?)\[\/code\]/m)
-		scan.each do |splits|
-			parse=splits[1].gsub("&lt;","<").gsub("&gt;",">")
-			lang=splits[0]
-			parsed="[nobbc]" + CodeRay.scan(parse, lang).div(:line_numbers => @config[:syntax_highlighting_line_numbers]) + "[/nobbc]"
-			input=input.gsub("[code lang=#{lang}]#{splits[1]}[/code]",parsed)
-		end
-		input
 	end
 
 	def needs_html_safe?
