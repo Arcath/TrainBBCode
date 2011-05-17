@@ -1,24 +1,18 @@
 = Train BBCode
 
+{Homepage}[http://trainbbcode.arcath.net/]
+
 Rails Gem for BBCode
 
 == Install
 
-=== As a Gem
-
-    gem install trainbbcode
-
-For rails you will need to add:
+Add:
 
     gem "trainbbcode"
 
 to your Gemfile and then install the gem using:
 
     bundle install
-    
-=== As a Plugin
-
-    rails plugin install git://github.com/Arcath/TrainBBCode
 
 == Usage
 
