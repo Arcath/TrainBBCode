@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 require "trainbbcode/version"
 
 Gem::Specification.new do |s|
-	s.name = "TrainBBCode"
+	s.name = "trainbbcode"
 	s.version = TBBC::VERSION
 	s.platform = Gem::Platform::RUBY
 	s.authors = ["Adam \"Arcath\" Laycock"]
