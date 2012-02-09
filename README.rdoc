@@ -34,13 +34,10 @@ Whilst this method works its not the cleanest way of doing it. Its fine for simp
 
 === Globaly
 
-This is done using config/tbbc.rb, this file needs to look like this:
+This is done using config/initializers/tbbc.rb, this file needs to look like this:
 
-    class TBBC
-        def user_config
-            #Change the Config here
-            @config[:strong_enabled] = false
-        end
-    end
+    Trainbbcode.configure do |c|
+        c.strong_enabled = false
+	end
 
 That would produce the same output as the on the fly config but would work when ever you used .tbbc in the project.
