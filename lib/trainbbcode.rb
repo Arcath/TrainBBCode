@@ -45,6 +45,12 @@ module TrainBBCode
 		s=s.gsub(/<br \/><\/(ul|li|table|tr|td|th)/,'</\1')
 	end
 
+    def self.escape(s)
+        clean = s.scan(/href=\"(.*?)\" target/).join
+        clean = clean.gsub('"', '&quot;')
+        s.gsub(/href=\"(.*?)\" target/, "href=\"#{clean}\" target")
+    end
+
 	def self.needs_html_safe?
 		if defined? Rails
 			return Rails.version =~ /^3\./

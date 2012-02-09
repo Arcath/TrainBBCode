@@ -36,4 +36,8 @@ describe String, "#tbbc" do
 	it "Should allow for 2 identical callbacks per string" do
 		"[up]HeLlo WorLd[/up] and [up]Bye bYe WorLd[/up]".tbbc(:custom_tags => [[/\[up\](.*?)\[\/up\]/,"Callback: upcaser",true]]).should == "HELLO WORLD and BYE BYE WORLD"
 	end
+	
+	it "should stop injection" do
+	    '[url=" onclick="alert(\'Hello World!\');]Hello world[/url]'.tbbc.should_not eq "<a href=\"\" onclick=\"alert('Hello World!');\" target=\"_BLANK\">Hello world</a>"
+    end
 end

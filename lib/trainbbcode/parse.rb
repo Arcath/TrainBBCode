@@ -31,7 +31,8 @@ module TrainBBCode
 				input=runtag(input,tag)
 			end	
 		end
-		input=correctbrs input
+		input = correctbrs input
+		input = escape input
 		if needs_html_safe? then
 			return input.html_safe
 		else
