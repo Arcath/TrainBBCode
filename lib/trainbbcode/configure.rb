@@ -1,4 +1,4 @@
-class TBBC
+module TrainBBCode
 	# Configures TBBC, loads a config file if present and the defaults 
 	def conf(config)
 		@config = config || {}

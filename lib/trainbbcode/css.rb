@@ -1,4 +1,4 @@
-class TBBC
+module TrainBBCode
 	
 	# Returns the css required for coderay
 	def css(config = nil)

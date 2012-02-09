@@ -1,4 +1,4 @@
-class TBBC
+module TrainBBCode
 	Tags =  [[/\[b\](.*?)\[\/b\]/,'<strong>\1</strong>',:strong_enabled,"[b]BOLD[/b]","<strong>BOLD</strong>"],
 		[/\[i\](.*?)\[\/i\]/,'<i>\1</i>',:italic_enabled,"[i]italics[/i]","<i>italics</i>"],
 		[/\[u\](.*?)\[\/u\]/,'<u>\1</u>',:underline_enabled,"[u]underline[/u]","<u>underline</u>"],
@@ -29,9 +29,9 @@ class TBBC
 	private
 	
 	# Runs the given tag array on the given string.
-	def runtag(s,tag)
+	def self.runtag(s,tag)
 		check = tag[2]
-		check = @config[tag[2]] if is_symbol? tag[2]
+		check = @config.check_enabled(tag[2]) if is_symbol? tag[2]
 		if tag[1] =~ /^Callback:/
 			s = run_callback(s, tag[0], tag[1])
 		else
@@ -41,20 +41,20 @@ class TBBC
 		s
 	end
 	
-	def is_symbol?(v)
+	def self.is_symbol?(v)
 		return false if (v == true or v == false)
 		v == v.to_sym
 	end
 	
-	def replace_config_values(s)
+	def self.replace_config_values(s)
 		if s.scan(/@config\[:(.*?)\]/) != [] then
-			return s.gsub(/@config\[:(.*?)\]/,@config[$1.to_sym])
+			return s.gsub(/@config\[:(.*?)\]/,@config.from_sym($1.to_sym))
 		else
 			return s
 		end
 	end
 
-	def run_callback(string, regex, callback)
+	def self.run_callback(string, regex, callback)
 		code = callback.gsub(/^Callback: /, '')
 		output = string
 		string.scan(regex).each do |arguments|
@@ -65,7 +65,7 @@ class TBBC
 		output
 	end
 
-	def build_pass_string(args)
+	def self.build_pass_string(args)
 		output = "("
 		args.map { |arg| output = "#{output}\"#{arg}\", " }
 		output.gsub(/, $/,')')

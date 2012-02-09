@@ -4,7 +4,7 @@ require "trainbbcode/version"
 
 Gem::Specification.new do |s|
 	s.name = "trainbbcode"
-	s.version = TBBC::VERSION
+	s.version = TrainBBCode::VERSION
 	s.platform = Gem::Platform::RUBY
 	s.authors = ["Adam \"Arcath\" Laycock"]
 	s.email = ["gems@arcath.net"]

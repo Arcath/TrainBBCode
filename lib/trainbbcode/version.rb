@@ -1,3 +1,3 @@
-class TBBC
+module TrainBBCode
 	VERSION = "1.2.0"
 end
